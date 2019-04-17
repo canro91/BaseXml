@@ -76,8 +76,8 @@ namespace BaseXml
 
         public void AddChildren(string xml, params XPath[] xPaths)
         {
-            // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             var allNamespaces = string.Join(" ", this.XmlNamespaces.Select(t => $"xmlns:{t.Prefix}=\"{t.Uri}\""));
             var dummyRoot = $@"<root {allNamespaces}>
@@ -100,8 +100,8 @@ namespace BaseXml
 
         public void AddSiblingNodeAfterFirstOf(string xml, params XPath[] xPaths)
         {
-            // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             // WARNING: Add a dummy root node to include a portion of xml without
             // namespace declaration
@@ -123,8 +123,8 @@ namespace BaseXml
 
         public void AddSiblingNodeBeforeFirstOf(string xml, params XPath[] xPaths)
         {
-            // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             var allNamespaces = string.Join(" ", this.XmlNamespaces.Select(t => $"xmlns:{t.Prefix}=\"{t.Uri}\""));
             var dummyRoot = $@"<root {allNamespaces}>
@@ -144,8 +144,8 @@ namespace BaseXml
 
         public void ChangeValueOfNode(XPath xPath, string value)
         {
-            // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             XmlNode node = _xmlDocument.SelectSingleNode(xPath.Expression, _xmlNamespaceManager);
             if (node != null)
@@ -156,8 +156,8 @@ namespace BaseXml
 
         public void ChangeValueOfAttribute(XAttribute attribute, string value)
         {
-            // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             XmlNode node = _xmlDocument.SelectSingleNode(attribute.NodeXPath, _xmlNamespaceManager);
             var attr = node.Attributes[attribute.AttributeName];

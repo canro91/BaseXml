@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="DocumentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignedDocumentTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseXml\BaseXml.csproj">
