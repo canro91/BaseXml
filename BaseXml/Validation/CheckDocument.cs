@@ -36,8 +36,6 @@ namespace BaseXml.Validation
             }
 
             return new ValidationResult(failures);
-
-
         }
     }
 }
