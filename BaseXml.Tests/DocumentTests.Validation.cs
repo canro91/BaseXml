@@ -46,7 +46,7 @@ namespace BaseXml.Tests
         }
 
         [Test]
-        public void Required_ANodeWithValue_IsInvalid()
+        public void Required_ANodeWithValue_IsValid()
         {
             var note = MakeNote(@"
 <?xml version=""1.0"" encoding=""utf-8""?>
