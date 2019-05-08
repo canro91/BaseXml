@@ -10,7 +10,7 @@ namespace BaseXml.Validation
             var failures = new List<ValidationFailure>();
 
             if (string.IsNullOrEmpty(value))
-                failures.Add(new ValidationFailure(nameof(Required), $"El tag [{xpath.Expression}] no existe o esta vacío."));
+                failures.Add(new ValidationFailure(nameof(Required), $"Node [{xpath.Expression}] doesn't exists or is empty."));
 
             return new ValidationResult(failures);
         }

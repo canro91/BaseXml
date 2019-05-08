@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BaseXml.Tests
 {
@@ -63,6 +64,29 @@ namespace BaseXml.Tests
 
             Assert.IsTrue(results.IsValid);
         }
+
+        [Test]
+        public void Required_AnEmptyNode_AddsXPathInMessage()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body></body>
+</note>");
+            var bodyXPath = "/note/body";
+            var validations = MakeValidator(new XPath(bodyXPath), new Required());
+            var validator = new CheckDocument(validations);
+
+            ValidationResult results = validator.Validate(note);
+
+            var message = results.Errors.FirstOrDefault()?.ErrorMessage;
+            Assert.IsNotNull(message);
+            StringAssert.Contains(bodyXPath, message);
+        }
+
 
         private Note MakeNote(string xml)
         {
