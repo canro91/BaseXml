@@ -116,6 +116,57 @@ namespace BaseXml.Tests
         }
 
         [Test]
+        public void AddOrReplaceSiblingNodeAfter_ExistingNode_ReplaceGivenNode()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>Body</body>
+</note>");
+            var newNode = "<body>This body has been modified</body>";
+
+            note.AddOrReplaceSiblingNodeAfterFirstOf(newNode, new XPath("/note/subject"));
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>This body has been modified</body>
+</note>";
+            Assert.AreEqual(expected, note.Xml);
+        }
+
+        [Test]
+        public void AddOrReplaceSiblingNodeAfter_NonExistingNode_ReplaceGivenNode()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+</note>");
+            var newNode = "<body>Body</body>";
+
+            note.AddOrReplaceSiblingNodeAfterFirstOf(newNode, new XPath("/note/subject"));
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>Body</body>
+</note>";
+            Assert.AreEqual(expected, note.Xml);
+        }
+
+
+
+        [Test]
         public void AddChildren_ExistingSiblingNode_AddChildrenAfterGivenNode()
         {
             var note = MakeNote(@"

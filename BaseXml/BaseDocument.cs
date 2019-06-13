@@ -98,6 +98,39 @@ namespace BaseXml
             }
         }
 
+        public void AddOrReplaceSiblingNodeAfterFirstOf(string xml, params XPath[] xPaths)
+        {
+            // WARNING: Document shouldn't be modified afer signed
+            if (XmlIsSigned) return;
+
+            var allNamespaces = string.Join(" ", this.XmlNamespaces.Select(t => $"xmlns:{t.Prefix}=\"{t.Uri}\""));
+            var dummyRoot = $@"<root {allNamespaces}>
+    {xml}
+</root>";
+            var temp = new XmlDocument();
+            temp.LoadXml(dummyRoot);
+
+            var existingNodeName = temp.FirstChild?.FirstChild?.Name;
+            var existingNodes = _xmlDocument.GetElementsByTagName(existingNodeName);
+            if (existingNodes.Count > 0)
+            {
+                for (int i = existingNodes.Count - 1; i >= 0; i--)
+                {
+                    var node = existingNodes[i];
+                    if (node.ParentNode.ParentNode.Name == "#document") node.ParentNode.RemoveChild(node);
+                }
+            }
+
+            XmlNode parentNode = xPaths.Select(t => _xmlDocument.SelectSingleNode(t.Expression, _xmlNamespaceManager))
+                                       .FirstOrDefault(t => t != null);
+            if (parentNode != null)
+            {
+                XmlNode newNode = parentNode.OwnerDocument.ImportNode(temp.DocumentElement.FirstChild, true);
+                _xmlDocument.DocumentElement.InsertAfter(newNode, parentNode);
+            }
+        }
+
+
         public void AddSiblingNodeAfterFirstOf(string xml, params XPath[] xPaths)
         {
             if (XmlIsSigned)
