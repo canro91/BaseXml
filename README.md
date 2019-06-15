@@ -64,7 +64,13 @@ Assert.AreEqual("I Love You", ps);
 
 ### Validations
 
-TODO
+BaseXml provides some per-node validations on top of a FluentValidation validator.  These are some of them:
+
+* Required
+* Value
+* Matches
+* InKeyValue
+* Length
 
 ## Installation
 
