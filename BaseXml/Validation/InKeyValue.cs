@@ -8,6 +8,11 @@ namespace BaseXml.Validation
     {
         private readonly IDictionary<string, string> Values;
 
+        public InKeyValue(IDictionary<string, string> values)
+        {
+            Values = values;
+        }
+
         public ValidationResult IsValid(XPath xpath, string value)
         {
             var failures = new List<ValidationFailure>();
@@ -16,7 +21,7 @@ namespace BaseXml.Validation
             {
                 var isInValues = Values.Any(t => t.Key == value);
                 if (!isInValues)
-                    failures.Add(new ValidationFailure(nameof(Required), $"El tag [{xpath.Expression}] no se encuentra en la lista de valores permitidos. Valor: [{value}]"));
+                    failures.Add(new ValidationFailure(nameof(Required), $"Node [{xpath.Expression}] isn't in the allowed values. Value: [{value}]"));
             }
 
             return new ValidationResult(failures);
