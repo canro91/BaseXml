@@ -20,7 +20,7 @@ namespace BaseXml.Validation
 
             if (!string.IsNullOrEmpty(value)
                     && !(value.Length >= Min && value.Length <= Max))
-                failures.Add(new ValidationFailure(nameof(Length), $"Node [{xpath.Expression}] length is outside of given range. Min: [{Min}], Max: [{Max}]. Valor: [{value}]."));
+                failures.Add(new ValidationFailure(nameof(Length), $"Node [{xpath.Expression}] length is outside of given range. Min: [{Min}], Max: [{Max}]. Value: [{value}]."));
 
             return new ValidationResult(failures);
         }

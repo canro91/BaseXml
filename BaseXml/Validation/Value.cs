@@ -18,7 +18,7 @@ namespace BaseXml.Validation
 
             if (!string.IsNullOrEmpty(value)
                     && value != ExpectedValue)
-                failures.Add(new ValidationFailure(nameof(Value), $"Node [{xpath.Expression}] is different from [{ExpectedValue}]. Found Value: [{value}]"));
+                failures.Add(new ValidationFailure(nameof(Value), $"Node [{xpath.Expression}] is different from [{ExpectedValue}]. Value: [{value}]"));
 
             return new ValidationResult(failures);
         }

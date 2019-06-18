@@ -19,7 +19,7 @@ namespace BaseXml.Validation
 
             if (!string.IsNullOrEmpty(value)
                     && !Pattern.IsMatch(value))
-                failures.Add(new ValidationFailure(nameof(Matches), $"Node [{xpath.Expression}] doesn't match pattern [{Pattern}]. Found value: [{value}]"));
+                failures.Add(new ValidationFailure(nameof(Matches), $"Node [{xpath.Expression}] doesn't match pattern [{Pattern}]. Value: [{value}]"));
 
             return new ValidationResult(failures);
         }
