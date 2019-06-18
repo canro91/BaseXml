@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocumentTests.cs" />
+    <Compile Include="ValidationTests.Length.cs" />
     <Compile Include="ValidationTests.Matches.cs" />
     <Compile Include="ValidationTests.Required.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

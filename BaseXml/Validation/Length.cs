@@ -18,9 +18,9 @@ namespace BaseXml.Validation
         {
             var failures = new List<ValidationFailure>();
 
-            if (string.IsNullOrEmpty(value)
-                    && !(value.Length <= Min && value.Length >= Max))
-                failures.Add(new ValidationFailure(nameof(Length), $"La longuitud del tag [{xpath.Expression}] se encuentra fuera de los rangos. Min: [{Min}], Max: [{Max}]. Valor: [{value}]."));
+            if (!string.IsNullOrEmpty(value)
+                    && !(value.Length >= Min && value.Length <= Max))
+                failures.Add(new ValidationFailure(nameof(Length), $"Node [{xpath.Expression}] length is outside of given range. Min: [{Min}], Max: [{Max}]. Valor: [{value}]."));
 
             return new ValidationResult(failures);
         }
