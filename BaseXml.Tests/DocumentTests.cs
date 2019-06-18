@@ -276,6 +276,27 @@ namespace BaseXml.Tests
 </note>";
             Assert.AreEqual(expected, note.Xml);
         }
+
+        [Test]
+        public void Evaluate_XmlWithNamespacesAndExistingValue_ExtractsValue()
+        {
+            var note = MakeNamespacedNode(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<ns:note xmlns:ns=""com:basexml:Structures"">
+  <ns:from>Bob</ns:from>
+  <ns:to>Alice</ns:to>
+  <ns:subject>Subject</ns:subject>
+  <ns:body>Body</ns:body>
+</ns:note>");
+            var body = note.Evaluate(new XPath("/ns:note/ns:body"));
+
+            Assert.AreEqual("Body", body);
+        }
+
+        private NamespacedNode MakeNamespacedNode(string xml)
+        {
+            return new NamespacedNode(xml.Trim());
+        }
     }
 
     public class Note : BaseDocument
@@ -290,6 +311,23 @@ namespace BaseXml.Tests
 
         public override IEnumerable<XmlNamespace> XmlNamespaces
             => new XmlNamespace[0];
+
+        public override bool XmlIsSigned
+            => false;
+    }
+
+    public class NamespacedNode : BaseDocument
+    {
+        public NamespacedNode(string xml)
+            : base(xml)
+        {
+        }
+
+        public override IEnumerable<XsdReference> UblXsds
+            => new XsdReference[0];
+
+        public override IEnumerable<XmlNamespace> XmlNamespaces
+            => new XmlNamespace[] { new XmlNamespace("ns", "com:basexml:Structures") };
 
         public override bool XmlIsSigned
             => false;
