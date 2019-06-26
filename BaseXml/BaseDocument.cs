@@ -59,12 +59,12 @@ namespace BaseXml
             return Evaluate<string>(xAttribute.ToXPath());
         }
 
-        protected internal T Evaluate<T>(XPath xPath)
+        public T Evaluate<T>(XPath xPath, T @default = default)
         {
             var result = _navigator.Evaluate(xPath.Expression, _xmlNamespaceManager);
             var obj = Converter.GetValue(result);
             var converted = Converter.ChangeType(obj, typeof(T));
-            return converted != null ? (T)converted : default;
+            return converted != null ? (T)converted : @default;
         }
 
         protected internal IEnumerable<T> MultipleEvaluate<T>(XPath xPath)

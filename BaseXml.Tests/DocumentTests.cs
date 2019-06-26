@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace BaseXml.Tests
@@ -296,6 +297,24 @@ namespace BaseXml.Tests
         private NamespacedNode MakeNamespacedNode(string xml)
         {
             return new NamespacedNode(xml.Trim());
+        }
+
+        [Test]
+        public void Evaluate_NonExistingNode_UsesCustomValue()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>Body</body>
+</note>");
+
+            var defaultDate = new DateTime(2019, 1, 1);
+            var date = note.Evaluate<DateTime>(new XPath("/note/date"), defaultDate);
+
+            Assert.AreEqual(defaultDate, date);
         }
     }
 
