@@ -279,6 +279,50 @@ namespace BaseXml.Tests
         }
 
         [Test]
+        public void AddOrChangeValueOfAttribute_ExistingAttributeInNode_ChangesValueOfAttribute()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body lang=""en"">Body</body>
+</note>");
+            var attribute = new XAttribute(new XPath("/note/body"), "lang");
+
+            note.AddOrChangeValueOfAttribute(attribute, "es");
+
+            string lang = note.Evaluate(attribute);
+            Assert.AreEqual("es", lang);
+        }
+
+        [Test]
+        public void AddOrChangeValueOfAttribute_NonExistingAttributeInNode_AddsAttributeToNode()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>Body</body>
+</note>");
+            var attribute = new XAttribute(new XPath("/note/body"), "lang");
+
+            note.AddOrChangeValueOfAttribute(attribute, "en");
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body lang=""en"">Body</body>
+</note>";
+            Assert.AreEqual(expected, note.Xml);
+        }
+
+        [Test]
         public void Evaluate_XmlWithNamespacesAndExistingValue_ExtractsValue()
         {
             var note = MakeNamespacedNode(@"

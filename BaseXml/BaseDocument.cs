@@ -187,6 +187,24 @@ namespace BaseXml
             }
         }
 
+        public  void AddOrChangeValueOfAttribute(XAttribute attribute, string value)
+        {
+            // WARNING: Document shouldn't be modified afer signed
+            if (XmlIsSigned) return;
+
+            XmlNode node = _xmlDocument.SelectSingleNode(attribute.NodeXPath, _xmlNamespaceManager);
+            if (node.Attributes[attribute.AttributeName] == null)
+            {
+                var attribut = _xmlDocument.CreateAttribute(attribute.AttributeName);
+                attribut.InnerText = value;
+                node.Attributes.Append(attribut);
+            }
+            else
+            {
+                node.Attributes[attribute.AttributeName].Value = value;
+            }
+        }
+
         public void ChangeValueOfAttribute(XAttribute attribute, string value)
         {
             if (XmlIsSigned)
