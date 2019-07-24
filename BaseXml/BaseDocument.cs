@@ -121,7 +121,9 @@ namespace BaseXml
                 }
             }
 
-            XmlNode parentNode = xPaths.Select(t => _xmlDocument.SelectSingleNode(t.Expression, _xmlNamespaceManager))
+            XmlNode parentNode = xPaths.Select(t => _xmlDocument.SelectNodes(t.Expression, _xmlNamespaceManager)
+                                                                .Cast<XmlNode>()
+                                                                .LastOrDefault())
                                        .FirstOrDefault(t => t != null);
             if (parentNode != null)
             {
@@ -145,7 +147,9 @@ namespace BaseXml
             var temp = new XmlDocument();
             temp.LoadXml(dummyRoot);
 
-            XmlNode parentNode = xPaths.Select(t => _xmlDocument.SelectSingleNode(t.Expression, _xmlNamespaceManager))
+            XmlNode parentNode = xPaths.Select(t => _xmlDocument.SelectNodes(t.Expression, _xmlNamespaceManager)
+                                                                .Cast<XmlNode>()
+                                                                .LastOrDefault())
                                        .FirstOrDefault(t => t != null);
             if (parentNode != null)
             {
