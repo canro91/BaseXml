@@ -154,7 +154,7 @@ namespace BaseXml
             if (parentNode != null)
             {
                 XmlNode newNode = parentNode.OwnerDocument.ImportNode(temp.DocumentElement.FirstChild, true);
-                _xmlDocument.DocumentElement.InsertAfter(newNode, parentNode);
+                parentNode.ParentNode.InsertAfter(newNode, parentNode);
             }
         }
 
@@ -175,7 +175,7 @@ namespace BaseXml
             if (parentNode != null)
             {
                 XmlNode newNode = parentNode.OwnerDocument.ImportNode(temp.DocumentElement.FirstChild, true);
-                _xmlDocument.DocumentElement.InsertBefore(newNode, parentNode);
+                parentNode.ParentNode.InsertBefore(newNode, parentNode);
             }
         }
 

@@ -99,6 +99,70 @@ namespace BaseXml.Tests
             Assert.AreEqual(expected, note.Xml);
         }
 
+        [Test]
+        public void AddSiblingNodeAfter_NodeToAddInAInnerNode_AddNewNodeAfterGivenNode()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <address>
+    <addressLine>742 Evergreen Terrace</addressLine>
+  </address>
+  <body>Body</body>
+</note>");
+            var newNode = "<city>Springfield</city>";
+
+            note.AddSiblingNodeAfterFirstOf(newNode, new XPath("/note/address/addressLine"));
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <address>
+    <addressLine>742 Evergreen Terrace</addressLine>
+    <city>Springfield</city>
+  </address>
+  <body>Body</body>
+</note>";
+            Assert.AreEqual(expected, note.Xml);
+        }
+
+        [Test]
+        public void AddSiblingNodeBefore_NodeToAddInAInnerNode_AddNewNodeBeforeGivenNode()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <address>
+    <city>Springfield</city>
+  </address>
+  <body>Body</body>
+</note>");
+            var newNode = "<addressLine>742 Evergreen Terrace</addressLine>";
+
+            note.AddSiblingNodeBeforeFirstOf(newNode, new XPath("/note/address/city"));
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <address>
+    <addressLine>742 Evergreen Terrace</addressLine>
+    <city>Springfield</city>
+  </address>
+  <body>Body</body>
+</note>";
+            Assert.AreEqual(expected, note.Xml);
+        }
+
 
         [Test]
         public void AddSiblingNodeBefore_ExistingSiblingNode_AddsNewNode()
