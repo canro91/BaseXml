@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocumentTests.cs" />
+    <Compile Include="DocumentTests.Evaluate.cs" />
     <Compile Include="ValidationTests.InKeyValue.cs" />
     <Compile Include="ValidationTests.Length.cs" />
     <Compile Include="ValidationTests.Matches.cs" />

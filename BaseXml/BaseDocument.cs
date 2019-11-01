@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BaseXml.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using BaseXml.Extensions;
 
 namespace BaseXml
 {
@@ -48,6 +48,10 @@ namespace BaseXml
             }
         }
 
+        public string Root
+        {
+            get => _xmlDocument.DocumentElement.Name;
+        }
 
         public string Evaluate(XPath xPath)
         {
@@ -132,7 +136,6 @@ namespace BaseXml
             }
         }
 
-
         public void AddSiblingNodeAfterFirstOf(string xml, params XPath[] xPaths)
         {
             if (XmlIsSigned)
@@ -191,7 +194,7 @@ namespace BaseXml
             }
         }
 
-        public  void AddOrChangeValueOfAttribute(XAttribute attribute, string value)
+        public void AddOrChangeValueOfAttribute(XAttribute attribute, string value)
         {
             // WARNING: Document shouldn't be modified afer signed
             if (XmlIsSigned) return;
