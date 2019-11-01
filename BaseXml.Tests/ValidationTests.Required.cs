@@ -87,7 +87,6 @@ namespace BaseXml.Tests
             StringAssert.Contains(bodyXPath, message);
         }
 
-
         private Note MakeNote(string xml)
         {
             return new Note(xml.Trim());

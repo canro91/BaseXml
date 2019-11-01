@@ -163,7 +163,6 @@ namespace BaseXml.Tests
             Assert.AreEqual(expected, note.Xml);
         }
 
-
         [Test]
         public void AddSiblingNodeBefore_ExistingSiblingNode_AddsNewNode()
         {

@@ -86,13 +86,9 @@ namespace BaseXml.Tests
 
             Assert.Throws<InvalidOperationException>(() => note.ChangeValueOfAttribute(new XAttribute(new XPath("/note/body"), "lang"), "es"));
         }
-
-
-
-
     }
 
-    class SignedNote : BaseDocument
+    internal class SignedNote : BaseDocument
     {
         public SignedNote(string xml)
             : base(xml)
