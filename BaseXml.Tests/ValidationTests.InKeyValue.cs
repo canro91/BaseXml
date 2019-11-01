@@ -30,7 +30,7 @@ namespace BaseXml.Tests
         }
 
         [Test]
-        public void InKeyValue_AEmptyNode_IsValid()
+        public void InKeyValue_AnEmptyNode_IsValid()
         {
             var note = MakeNote(@"
 <?xml version=""1.0"" encoding=""utf-8""?>
