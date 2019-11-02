@@ -19,7 +19,7 @@ namespace BaseXml.Evaluation
                 var xpath = !string.IsNullOrEmpty(attrName)
                                 ? new XPath($"{document.Root}/{parentNodeName}/@{attrName}")
                                 : new XPath($"{document.Root}/{parentNodeName}/{nodeName}");
-                var value = document.Evaluate(xpath);
+                var value = document.Evaluate(xpath, property.PropertyType);
                 property.SetValue(node, value);
             }
 

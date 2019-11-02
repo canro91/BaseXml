@@ -1,5 +1,6 @@
 ﻿using BaseXml.Evaluation;
 using NUnit.Framework;
+using System;
 
 namespace BaseXml.Tests
 {
@@ -73,7 +74,54 @@ namespace BaseXml.Tests
             Assert.AreEqual("Subject", annotatedNote.Subject);
         }
 
-        // Different data type
+        [Test]
+        public void Evaluate_DateAndStringsAndAllPropertyNamesMatchXmlNodes_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<Note>
+  <Metadata>
+    <From>Bob</From>
+    <To>Alice</To>
+    <Subject>Subject</Subject>
+    <Date>2019-01-01</Date>
+  </Metadata>
+  <Body>Some Note content</Body>
+</Note>");
+
+            var annotatedNote = note.EvaluateNode<WithDateMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+            Assert.AreEqual(new DateTime(2019, 1, 1), annotatedNote.Date);
+        }
+
+        [Test]
+        public void Evaluate_EnumAndStringsAndAllPropertyNamesMatchXmlNodes_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<Note>
+  <Metadata>
+    <From>Bob</From>
+    <To>Alice</To>
+    <Subject>Subject</Subject>
+    <Date>2019-01-01</Date>
+    <Type>Memo</Type>
+  </Metadata>
+  <Body>Some Note content</Body>
+</Note>");
+
+            var annotatedNote = note.EvaluateNode<WithTypeMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+            Assert.AreEqual(NoteType.Memo, annotatedNote.Type);
+        }
 
         private Note MakeNote(string xml)
         {
@@ -91,6 +139,31 @@ namespace BaseXml.Tests
         public string From { get; set; }
         public string To { get; set; }
         public string Subject { get; set; }
+    }
+
+    [FromNode("Metadata")]
+    internal class WithDateMetadata : INode
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public DateTime Date { get; set; }
+    }
+
+    [FromNode("Metadata")]
+    internal class WithTypeMetadata : INode
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public NoteType? Type { get; set; }
+    }
+
+    internal enum NoteType
+    {
+        Salutation,
+        Reminder,
+        Memo
     }
 
     [FromNode("ns:metadata")]

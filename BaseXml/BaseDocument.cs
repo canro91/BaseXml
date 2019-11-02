@@ -71,6 +71,14 @@ namespace BaseXml
             return converted != null ? (T)converted : @default;
         }
 
+        internal object Evaluate(XPath xPath, Type type)
+        {
+            var result = _navigator.Evaluate(xPath.Expression, _xmlNamespaceManager);
+            var obj = Converter.GetValue(result);
+            var converted = Converter.ChangeType(obj, type);
+            return converted;
+        }
+
         // TODO Add test for multiple evaluate
         protected internal IEnumerable<T> MultipleEvaluate<T>(XPath xPath)
         {
