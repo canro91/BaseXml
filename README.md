@@ -62,6 +62,8 @@ var ps = note.PS;
 Assert.AreEqual("I Love You", ps);
 ```
 
+Please, take a look at the Sample project to see how to add new nodes, evaluate an xpath and map a POCO to an xml node
+
 ### Validations
 
 BaseXml provides some per-node validations on top of a FluentValidation validator.  These are some of them:
