@@ -28,9 +28,39 @@ namespace BaseXml.Tests
             Assert.AreEqual("Subject", annotatedNote.Subject);
         }
 
+        [Test]
+        public void Evaluate_OnlyStringsAndPropertiesDontMatchXmlNodeNames_PopulatesProperties()
+        {
+            var note = MakeNamespacedNode(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<ns:note xmlns:ns=""com:basexml:Structures"">
+  <ns:metadata>
+    <ns:from>Bob</ns:from>
+    <ns:to>Alice</ns:to>
+    <ns:subject>Subject</ns:subject>
+  </ns:metadata>
+  <ns:body>Body</ns:body>
+</ns:note>");
+
+            var annotatedNote = note.EvaluateNode<AnnotatedMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+        }
+
+        // Evaluate from attributes
+        // Different data type
+
         private Note MakeNote(string xml)
         {
             return new Note(xml.Trim());
+        }
+
+        private NamespacedNode MakeNamespacedNode(string xml)
+        {
+            return new NamespacedNode(xml.Trim());
         }
     }
 
@@ -38,6 +68,19 @@ namespace BaseXml.Tests
     {
         public string From { get; set; }
         public string To { get; set; }
+        public string Subject { get; set; }
+    }
+
+    [FromNode("ns:metadata")]
+    internal class AnnotatedMetadata : INode
+    {
+        [FromNode("ns:from")]
+        public string From { get; set; }
+
+        [FromNode("ns:to")]
+        public string To { get; set; }
+
+        [FromNode("ns:subject")]
         public string Subject { get; set; }
     }
 }

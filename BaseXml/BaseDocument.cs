@@ -71,6 +71,7 @@ namespace BaseXml
             return converted != null ? (T)converted : @default;
         }
 
+        // TODO Add test for multiple evaluate
         protected internal IEnumerable<T> MultipleEvaluate<T>(XPath xPath)
         {
             var result = _navigator.Evaluate(xPath.Expression, _xmlNamespaceManager);
