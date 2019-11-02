@@ -50,7 +50,29 @@ namespace BaseXml.Tests
             Assert.AreEqual("Subject", annotatedNote.Subject);
         }
 
-        // Evaluate from attributes
+        [Test]
+        public void Evaluate_OnlyStringsAndDocumentWithAttributes_PopulatesPropertiesMappedToAttributes()
+        {
+            var note = MakeNamespacedNode(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<ns:note xmlns:ns=""com:basexml:Structures"">
+  <ns:metadata lang=""en-US"">
+    <ns:from>Bob</ns:from>
+    <ns:to>Alice</ns:to>
+    <ns:subject>Subject</ns:subject>
+  </ns:metadata>
+  <ns:body>Body</ns:body>
+</ns:note>");
+
+            var annotatedNote = note.EvaluateNode<AnnotatedMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("en-US", annotatedNote.Language);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+        }
+
         // Different data type
 
         private Note MakeNote(string xml)
@@ -74,6 +96,9 @@ namespace BaseXml.Tests
     [FromNode("ns:metadata")]
     internal class AnnotatedMetadata : INode
     {
+        [FromAttr("lang")]
+        public string Language { get; set; }
+
         [FromNode("ns:from")]
         public string From { get; set; }
 

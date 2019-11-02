@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="BaseDocument.cs" />
     <Compile Include="Evaluation\BaseDocumentExtensions.cs" />
-    <Compile Include="Evaluation\FromAttribute.cs" />
+    <Compile Include="Evaluation\FromAttr.cs" />
     <Compile Include="Evaluation\FromNode.cs" />
     <Compile Include="Extensions\Converter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

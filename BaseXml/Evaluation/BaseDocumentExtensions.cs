@@ -12,9 +12,14 @@ namespace BaseXml.Evaluation
                                     ?? node.GetType().Name;
             foreach (PropertyInfo property in node.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var name = property.GetCustomAttribute<FromNode>(true)?.Node
+                var attrName = property.GetCustomAttribute<FromAttr>(true)?.Node;
+                var nodeName = property.GetCustomAttribute<FromNode>(true)?.Node
                                 ?? property.Name;
-                var value = document.Evaluate(new XPath($"{document.Root}/{parentNodeName}/{name}"));
+
+                var xpath = !string.IsNullOrEmpty(attrName)
+                                ? new XPath($"{document.Root}/{parentNodeName}/@{attrName}")
+                                : new XPath($"{document.Root}/{parentNodeName}/{nodeName}");
+                var value = document.Evaluate(xpath);
                 property.SetValue(node, value);
             }
 
