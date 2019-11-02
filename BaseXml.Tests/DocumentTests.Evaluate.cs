@@ -122,6 +122,36 @@ namespace BaseXml.Tests
             Assert.AreEqual(NoteType.Memo, annotatedNote.Type);
         }
 
+        [Test]
+        public void Evaluate_XmlDocumentWithNestedNode_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<Note>
+  <Metadata>
+    <From>Bob</From>
+    <To>Alice</To>
+    <Subject>Subject</Subject>
+    <Type>Memo</Type>
+    <Delivery>
+      <FromIp>127.0.0.1</FromIp>
+      <DeliverAt>2019-01-01</DeliverAt>
+    </Delivery>
+  </Metadata>
+  <Body>Some Note content</Body>
+</Note>");
+
+            var annotatedNote = note.EvaluateNode<WithNestedNodeMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+            Assert.IsNotNull(annotatedNote?.Delivery);
+            Assert.AreEqual("127.0.0.1", annotatedNote.Delivery.FromIp);
+            Assert.AreEqual(new DateTime(2019, 1, 1), annotatedNote.Delivery.DeliverAt);
+        }
+
         private Note MakeNote(string xml)
         {
             return new Note(xml.Trim());
@@ -192,5 +222,20 @@ namespace BaseXml.Tests
 
         [FromNode("ns:subject")]
         public string Subject { get; set; }
+    }
+
+    [FromNode("Metadata")]
+    internal class WithNestedNodeMetadata : INode
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public Delivery Delivery { get; set; }
+    }
+
+    internal class Delivery : INode
+    {
+        public string FromIp { get; set; }
+        public DateTime DeliverAt { get; set; }
     }
 }
