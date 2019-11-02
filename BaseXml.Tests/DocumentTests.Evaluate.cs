@@ -52,7 +52,7 @@ namespace BaseXml.Tests
         }
 
         [Test]
-        public void Evaluate_OnlyStringsAndDocumentWithAttributes_PopulatesPropertiesMappedToAttributes()
+        public void Evaluate_OnlyStringsAndXmlDocumentWithAttribute_PopulatesPropertiesMappedToAttributes()
         {
             var note = MakeNamespacedNode(@"
 <?xml version=""1.0"" encoding=""utf-8""?>
@@ -65,7 +65,7 @@ namespace BaseXml.Tests
   <ns:body>Body</ns:body>
 </ns:note>");
 
-            var annotatedNote = note.EvaluateNode<AnnotatedMetadata>();
+            var annotatedNote = note.EvaluateNode<MappedToXmlAttributeMetadata>();
 
             Assert.IsNotNull(annotatedNote);
             Assert.AreEqual("en-US", annotatedNote.Language);
@@ -108,13 +108,12 @@ namespace BaseXml.Tests
     <From>Bob</From>
     <To>Alice</To>
     <Subject>Subject</Subject>
-    <Date>2019-01-01</Date>
     <Type>Memo</Type>
   </Metadata>
   <Body>Some Note content</Body>
 </Note>");
 
-            var annotatedNote = note.EvaluateNode<WithTypeMetadata>();
+            var annotatedNote = note.EvaluateNode<WithEnumMetadata>();
 
             Assert.IsNotNull(annotatedNote);
             Assert.AreEqual("Bob", annotatedNote.From);
@@ -151,7 +150,7 @@ namespace BaseXml.Tests
     }
 
     [FromNode("Metadata")]
-    internal class WithTypeMetadata : INode
+    internal class WithEnumMetadata : INode
     {
         public string From { get; set; }
         public string To { get; set; }
@@ -168,6 +167,19 @@ namespace BaseXml.Tests
 
     [FromNode("ns:metadata")]
     internal class AnnotatedMetadata : INode
+    {
+        [FromNode("ns:from")]
+        public string From { get; set; }
+
+        [FromNode("ns:to")]
+        public string To { get; set; }
+
+        [FromNode("ns:subject")]
+        public string Subject { get; set; }
+    }
+
+    [FromNode("ns:metadata")]
+    internal class MappedToXmlAttributeMetadata : INode
     {
         [FromAttr("lang")]
         public string Language { get; set; }
