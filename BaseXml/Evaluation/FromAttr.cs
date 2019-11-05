@@ -7,6 +7,10 @@ namespace BaseXml.Evaluation
     {
         public string Node { get; set; }
 
+        public FromAttr()
+        {
+        }
+
         public FromAttr(string node)
         {
             Node = node;

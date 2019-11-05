@@ -52,7 +52,7 @@ namespace BaseXml.Tests
         }
 
         [Test]
-        public void Evaluate_OnlyStringsAndXmlDocumentWithAttribute_PopulatesPropertiesMappedToAttributes()
+        public void Evaluate_OnlyStringsAndXmlDocumentWithCustomNamespaceAndAttribute_PopulatesPropertiesMappedToAttributes()
         {
             var note = MakeNamespacedNode(@"
 <?xml version=""1.0"" encoding=""utf-8""?>
@@ -66,6 +66,29 @@ namespace BaseXml.Tests
 </ns:note>");
 
             var annotatedNote = note.EvaluateNode<MappedToXmlAttributeMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("en-US", annotatedNote.Language);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+        }
+
+        [Test]
+        public void Evaluate_OnlyStringsAndXmlDocumentWithAttribute_PopulatesPropertiesMappedToAttributes()
+        {
+            var note = MakeNamespacedNode(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<Note>
+  <Metadata Language=""en-US"">
+    <From>Bob</From>
+    <To>Alice</To>
+    <Subject>Subject</Subject>
+  </Metadata>
+  <Body>Body</Body>
+</Note>");
+
+            var annotatedNote = note.EvaluateNode<WithXmlAttributeMetadata>();
 
             Assert.IsNotNull(annotatedNote);
             Assert.AreEqual("en-US", annotatedNote.Language);
@@ -152,6 +175,81 @@ namespace BaseXml.Tests
             Assert.AreEqual(new DateTime(2019, 1, 1), annotatedNote.Delivery.DeliverAt);
         }
 
+        [Test]
+        public void Evaluate_PropertyNamesMatchXmlNodesWithCamelCaseNames_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <metadata>
+    <from>Bob</from>
+    <to>Alice</to>
+    <subject>Subject</subject>
+  </metadata>
+  <body>Some note content</body>
+</note>");
+
+            var annotatedNote = note.EvaluateNode<Metadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+        }
+
+        [Test]
+        public void Evaluate_PropertyNamesMatchXmlAttributesWithCamelCaseNames_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <metadata language=""en-US"">
+    <from>Bob</from>
+    <to>Alice</to>
+    <subject>Subject</subject>
+  </metadata>
+  <body>Some note content</body>
+</note>");
+
+            var annotatedNote = note.EvaluateNode<WithXmlAttributeMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("en-US", annotatedNote.Language);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+        }
+
+        [Test]
+        public void Evaluate_XmlDocumentWithNestedNodeAndCamelCaseNames_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <metadata>
+    <from>Bob</from>
+    <to>Alice</to>
+    <subject>Subject</subject>
+    <type>Memo</type>
+    <delivery>
+      <fromIp>127.0.0.1</fromIp>
+      <deliverAt>2019-01-01</deliverAt>
+    </delivery>
+  </metadata>
+  <body>Some Note content</body>
+</note>");
+
+            var annotatedNote = note.EvaluateNode<ToMatchCamelCaseNodeNamesWithNestedNodeMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+            Assert.IsNotNull(annotatedNote?.Delivery);
+            Assert.AreEqual("127.0.0.1", annotatedNote.Delivery.FromIp);
+            Assert.AreEqual(new DateTime(2019, 1, 1), annotatedNote.Delivery.DeliverAt);
+        }
+
         private Note MakeNote(string xml)
         {
             return new Note(xml.Trim());
@@ -195,6 +293,16 @@ namespace BaseXml.Tests
         Memo
     }
 
+    [FromNode("Metadata")]
+    internal class WithXmlAttributeMetadata : INode
+    {
+        [FromAttr]
+        public string Language { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+    }
+
     [FromNode("ns:metadata")]
     internal class AnnotatedMetadata : INode
     {
@@ -222,6 +330,15 @@ namespace BaseXml.Tests
 
         [FromNode("ns:subject")]
         public string Subject { get; set; }
+    }
+
+    [FromNode("metadata")]
+    internal class ToMatchCamelCaseNodeNamesWithNestedNodeMetadata : INode
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public Delivery Delivery { get; set; }
     }
 
     [FromNode("Metadata")]

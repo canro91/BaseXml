@@ -53,6 +53,7 @@
     <Compile Include="Evaluation\FromAttr.cs" />
     <Compile Include="Evaluation\FromNode.cs" />
     <Compile Include="Extensions\Converter.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\AreEqual.cs" />
     <Compile Include="Validation\CheckDocument.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseXml.Extensions;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -14,7 +15,10 @@ namespace BaseXml.Evaluation
                                     ?? node.GetType().Name;
             foreach (PropertyInfo property in node.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var attrName = property.GetCustomAttribute<FromAttr>(true)?.Node;
+                var hasAttrName = property.GetCustomAttribute<FromAttr>(true) != null;
+                var attrName = hasAttrName
+                                    ? property.GetCustomAttribute<FromAttr>(true)?.Node ?? property.Name
+                                    : null;
                 var nodeName = property.GetCustomAttribute<FromNode>(true)?.Node
                                 ?? property.Name;
 
@@ -22,14 +26,19 @@ namespace BaseXml.Evaluation
                                 ? new XPath($"{document.Root}/{parentNodeName}/@{attrName}")
                                 : new XPath($"{document.Root}/{parentNodeName}/{nodeName}");
 
+                var camelCaseXpath = !string.IsNullOrEmpty(attrName)
+                                        ? new XPath($"{document.Root}/{parentNodeName.ToCamelCase()}/@{attrName.ToCamelCase()}")
+                                        : new XPath($"{document.Root}/{parentNodeName.ToCamelCase()}/{nodeName.ToCamelCase()}");
+
                 if (property.PropertyType.GetInterfaces().Any(t => t == typeof(INode)))
                 {
-                    var value = EvaluateNestedNode(document, property, xpath);
+                    var value = EvaluateNestedNode(document, property, xpath, camelCaseXpath);
                     property.SetValue(node, value);
                 }
                 else
                 {
-                    var value = document.Evaluate(xpath, property.PropertyType);
+                    var value = document.Evaluate(xpath, property.PropertyType)
+                                    ?? document.Evaluate(camelCaseXpath, property.PropertyType);
                     property.SetValue(node, value);
                 }
             }
@@ -37,13 +46,16 @@ namespace BaseXml.Evaluation
             return node;
         }
 
-        private static object EvaluateNestedNode(BaseDocument document, PropertyInfo baseProperty, XPath baseXPath)
+        private static object EvaluateNestedNode(BaseDocument document, PropertyInfo baseProperty, XPath baseXPath, XPath camelCaseBaseXPath)
         {
             var node = Activator.CreateInstance(baseProperty.PropertyType);
 
             foreach (PropertyInfo property in baseProperty.PropertyType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
-                var attrName = property.GetCustomAttribute<FromAttr>(true)?.Node;
+                var hasAttrName = property.GetCustomAttribute<FromAttr>(true) != null;
+                var attrName = hasAttrName
+                                    ? property.GetCustomAttribute<FromAttr>(true)?.Node ?? property.Name
+                                    : null;
                 var nodeName = property.GetCustomAttribute<FromNode>(true)?.Node
                                 ?? property.Name;
 
@@ -51,7 +63,12 @@ namespace BaseXml.Evaluation
                                 ? new XPath($"{baseXPath.Expression}/@{attrName}")
                                 : new XPath($"{baseXPath.Expression}/{nodeName}");
 
-                var value = document.Evaluate(xpath, property.PropertyType);
+                var camelCaseXpath = !string.IsNullOrEmpty(attrName)
+                        ? new XPath($"{camelCaseBaseXPath.Expression}/@{attrName.ToCamelCase()}")
+                        : new XPath($"{camelCaseBaseXPath.Expression}/{nodeName.ToCamelCase()}");
+
+                var value = document.Evaluate(xpath, property.PropertyType)
+                                ?? document.Evaluate(camelCaseXpath, property.PropertyType);
                 property.SetValue(node, value);
             }
 
