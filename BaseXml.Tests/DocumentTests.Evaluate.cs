@@ -155,7 +155,6 @@ namespace BaseXml.Tests
     <From>Bob</From>
     <To>Alice</To>
     <Subject>Subject</Subject>
-    <Type>Memo</Type>
     <Delivery>
       <FromIp>127.0.0.1</FromIp>
       <DeliverAt>2019-01-01</DeliverAt>
@@ -173,6 +172,36 @@ namespace BaseXml.Tests
             Assert.IsNotNull(annotatedNote?.Delivery);
             Assert.AreEqual("127.0.0.1", annotatedNote.Delivery.FromIp);
             Assert.AreEqual(new DateTime(2019, 1, 1), annotatedNote.Delivery.DeliverAt);
+        }
+
+        [Test]
+        public void Evaluate_XmlDocumentWithTwoLevelNestedNode_PopulatesPropertiesWithXmlNodes()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<Note>
+  <Metadata>
+    <From>Bob</From>
+    <To>Alice</To>
+    <Subject>Subject</Subject>
+    <FirstNode>
+      <SecondNode>
+        <Name>A name</Name>
+      </SecondNode>
+    </FirstNode>
+  </Metadata>
+  <Body>Some Note content</Body>
+</Note>");
+
+            var annotatedNote = note.EvaluateNode<WithTwoLevelNestedNodeMetadata>();
+
+            Assert.IsNotNull(annotatedNote);
+            Assert.AreEqual("Bob", annotatedNote.From);
+            Assert.AreEqual("Alice", annotatedNote.To);
+            Assert.AreEqual("Subject", annotatedNote.Subject);
+            Assert.IsNotNull(annotatedNote?.FirstNode);
+            Assert.IsNotNull(annotatedNote.FirstNode?.SecondNode);
+            Assert.AreEqual("A name", annotatedNote.FirstNode.SecondNode.Name);
         }
 
         [Test]
@@ -354,5 +383,24 @@ namespace BaseXml.Tests
     {
         public string FromIp { get; set; }
         public DateTime DeliverAt { get; set; }
+    }
+
+    [FromNode("Metadata")]
+    internal class WithTwoLevelNestedNodeMetadata : INode
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public FirstNode FirstNode { get; set; }
+    }
+
+    internal class FirstNode : INode
+    {
+        public SecondNode SecondNode { get; set; }
+    }
+
+    internal class SecondNode : INode
+    {
+        public string Name { get; set; }
     }
 }
