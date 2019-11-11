@@ -114,7 +114,8 @@ namespace BaseXml
         public void AddOrReplaceSiblingNodeAfterFirstOf(string xml, params XPath[] xPaths)
         {
             // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             var allNamespaces = string.Join(" ", this.XmlNamespaces.Select(t => $"xmlns:{t.Prefix}=\"{t.Uri}\""));
             var dummyRoot = $@"<root {allNamespaces}>
@@ -206,7 +207,8 @@ namespace BaseXml
         public void AddOrChangeValueOfAttribute(XAttribute attribute, string value)
         {
             // WARNING: Document shouldn't be modified afer signed
-            if (XmlIsSigned) return;
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
 
             XmlNode node = _xmlDocument.SelectSingleNode(attribute.NodeXPath, _xmlNamespaceManager);
             if (node.Attributes[attribute.AttributeName] == null)

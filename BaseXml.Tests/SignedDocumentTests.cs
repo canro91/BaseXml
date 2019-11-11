@@ -86,6 +86,36 @@ namespace BaseXml.Tests
 
             Assert.Throws<InvalidOperationException>(() => note.ChangeValueOfAttribute(new XAttribute(new XPath("/note/body"), "lang"), "es"));
         }
+
+        [Test]
+        public void AddOrChangeValueOfAttribute_SignedDocument_ThrowsException()
+        {
+            var note = MakeSignedNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body lang=""en"">Body</body>
+</note>");
+
+            Assert.Throws<InvalidOperationException>(() => note.AddOrChangeValueOfAttribute(new XAttribute(new XPath("/note/body"), "lang"), "es"));
+        }
+
+        [Test]
+        public void AddOrReplaceSiblingAfter_SignedDocument_ThrowsException()
+        {
+            var note = MakeSignedNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+</note>");
+            var newNode = "<body>Body</body>";
+
+            Assert.Throws<InvalidOperationException>(() => note.AddOrReplaceSiblingNodeAfterFirstOf(newNode, new XPath("/note/subject")));
+        }
     }
 
     internal class SignedNote : BaseDocument
