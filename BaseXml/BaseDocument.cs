@@ -213,9 +213,9 @@ namespace BaseXml
             XmlNode node = _xmlDocument.SelectSingleNode(attribute.NodeXPath, _xmlNamespaceManager);
             if (node.Attributes[attribute.AttributeName] == null)
             {
-                var attribut = _xmlDocument.CreateAttribute(attribute.AttributeName);
-                attribut.InnerText = value;
-                node.Attributes.Append(attribut);
+                var attr = _xmlDocument.CreateAttribute(attribute.AttributeName);
+                attr.InnerText = value;
+                node.Attributes.Append(attr);
             }
             else
             {
