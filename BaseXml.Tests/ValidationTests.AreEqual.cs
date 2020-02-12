@@ -16,7 +16,6 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <type>Salutation</type>
   <body>Hi</body>
   <envelope>
     <recipient>RecipientDifferentFromTo</recipient>
@@ -39,7 +38,6 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <type>Salutation</type>
   <body>Hi</body>
   <envelope>
     <recipient>Alice</recipient>
@@ -62,7 +60,6 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to></to>
   <subject>Subject</subject>
-  <type>Salutation</type>
   <body>Hi</body>
   <envelope>
     <recipient>Alice</recipient>
@@ -85,7 +82,6 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <type>Salutation</type>
   <body>Hi</body>
   <envelope>
     <recipient></recipient>
@@ -99,7 +95,6 @@ namespace BaseXml.Tests
             Assert.IsTrue(results.IsValid);
         }
 
-
         [Test]
         public void AreEqual_TwoDifferentValues_AddXPathInMessage()
         {
@@ -109,7 +104,6 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <type>Salutation</type>
   <body>Hi</body>
   <envelope>
     <recipient>RecipientDifferentFromAlice</recipient>
