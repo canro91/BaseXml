@@ -4,6 +4,6 @@ namespace BaseXml.Validation
 {
     public interface IValidateNode
     {
-        ValidationResult IsValid(XPath xpath, string value);
+        ValidationResult IsValid(XPath xpath, string value, IEvaluate evaluate);
     }
 }

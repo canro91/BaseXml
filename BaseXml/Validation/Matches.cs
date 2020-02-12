@@ -13,7 +13,7 @@ namespace BaseXml.Validation
             Pattern = pattern;
         }
 
-        public ValidationResult IsValid(XPath xpath, string value)
+        public ValidationResult IsValid(XPath xpath, string value, IEvaluate evaluate)
         {
             var failures = new List<ValidationFailure>();
 

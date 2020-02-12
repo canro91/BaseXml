@@ -73,6 +73,7 @@ BaseXml provides some per-node validations on top of a FluentValidation validato
 * Matches
 * InKeyValue
 * Length
+* AreEqual
 
 ## Installation
 

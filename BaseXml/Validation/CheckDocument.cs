@@ -27,7 +27,7 @@ namespace BaseXml.Validation
                 var validations = item.Value;
                 foreach (var v in validations)
                 {
-                    var isValid = v.IsValid(xpath, value);
+                    var isValid = v.IsValid(xpath, value, document);
                     if (!isValid.IsValid)
                     {
                         failures.AddRange(isValid.Errors);

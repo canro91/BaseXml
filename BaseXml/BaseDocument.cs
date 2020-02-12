@@ -9,7 +9,7 @@ using System.Xml.XPath;
 
 namespace BaseXml
 {
-    public abstract class BaseDocument
+    public abstract class BaseDocument : IEvaluate
     {
         protected XmlDocument _xmlDocument;
         protected XmlNamespaceManager _xmlNamespaceManager;
