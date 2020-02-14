@@ -62,7 +62,7 @@ var ps = note.PS;
 Assert.AreEqual("I Love You", ps);
 ```
 
-Please, take a look at the Sample project to see how to add new nodes, evaluate an xpath and map a POCO to an xml node
+Please, take a look at the [Sample project](https://github.com/canro91/BaseXml/tree/master/BaseXml.Sample) to see how to add new nodes, evaluate an xpath and map a POCO to an xml node
 
 ### Validations
 
