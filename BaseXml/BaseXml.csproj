@@ -1,80 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{003977B7-6E1D-48AF-A998-A54EFEBA800C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BaseXml</RootNamespace>
-    <AssemblyName>BaseXml</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <Description>BaseXml allows you to evaluate xpath expressions, add or modify nodes and validate an xml document</Description>
+    <RepositoryUrl>https://github.com/canro91/BaseXml</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/canro91/BaseXml</PackageProjectUrl>
+    <PackageTags>xml xml-document xpath xsd</PackageTags>
+    <Authors>Cesar Aguirre</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.8.2.2\lib\net45\FluentValidation.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BaseDocument.cs" />
-    <Compile Include="Evaluation\BaseDocumentExtensions.cs" />
-    <Compile Include="Evaluation\FromAttr.cs" />
-    <Compile Include="Evaluation\FromNode.cs" />
-    <Compile Include="Extensions\Converter.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="IEvaluate.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validation\AreEqual.cs" />
-    <Compile Include="Validation\CheckDocument.cs" />
-    <Compile Include="Validation\InKeyValue.cs" />
-    <Compile Include="Validation\IValidateNode.cs" />
-    <Compile Include="Validation\Matches.cs" />
-    <Compile Include="Validation\Length.cs" />
-    <Compile Include="Validation\Required.cs" />
-    <Compile Include="Validation\ValidateIf.cs" />
-    <Compile Include="Validation\Value.cs" />
-    <Compile Include="XAttribute.cs" />
-    <Compile Include="XmlNamespace.cs" />
-    <Compile Include="XPath.cs" />
-    <Compile Include="XsdReference.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Evaluation\INode.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
