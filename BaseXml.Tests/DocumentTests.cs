@@ -52,7 +52,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace BaseXml.Tests
   </address>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace BaseXml.Tests
   </address>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>This body has been modified</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -252,7 +252,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -279,7 +279,7 @@ namespace BaseXml.Tests
   <subject>This is a new subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -302,7 +302,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -346,7 +346,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -390,7 +390,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]
@@ -434,7 +434,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body lang=""en"">Body</body>
 </note>";
-            Assert.AreEqual(expected, note.Xml);
+            XmlAssert.AreEqual(expected, note.Xml);
         }
 
         [Test]

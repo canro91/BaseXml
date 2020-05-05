@@ -1,5 +1,7 @@
 # BaseXML
 
+![](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg) ![](https://github.com/canro91/BaseXml/workflows/Build/badge.svg) ![](https://img.shields.io/github/license/canro91/BaseXml)
+
 BaseXML is a library to manipulate xml files. It allows you to evaluate an xpath expression, add new nodes and modify existing ones. By design, all mutable operations aren’t allowed if the document is signed.
 
 BaseXML also offers a set of validators to help you check consistency in your xml documents.
