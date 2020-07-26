@@ -58,6 +58,21 @@ namespace BaseXml.Tests
         }
 
         [Test]
+        public void PrependChildren_SignedDocument_ThrowsException()
+        {
+            var note = MakeSignedNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <subject>Subject</subject>
+  <body>Body</body>
+  <ps>Something else</ps>
+</note>");
+            var newNode = "<from>Bob</from><to>Alice</to>";
+  
+            Assert.Throws<InvalidOperationException>(() => note.PrependChildren(newNode, new XPath("/note")));
+        }
+
+        [Test]
         public void ChangeValueOfNode_SignedDocument_ThrowsException()
         {
             var note = MakeSignedNote(@"

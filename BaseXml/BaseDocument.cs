@@ -111,6 +111,31 @@ namespace BaseXml
             }
         }
 
+        public void PrependChildren(string xml, params XPath[] xPaths)
+        {
+            if (XmlIsSigned)
+                throw new InvalidOperationException("Document cannot be modified if signed");
+
+            var allNamespaces = string.Join(" ", this.XmlNamespaces.Select(t => $"xmlns:{t.Prefix}=\"{t.Uri}\""));
+            var dummyRoot = $@"<root {allNamespaces}>
+    {xml}
+</root>";
+            var temp = new XmlDocument();
+            temp.LoadXml(dummyRoot);
+
+            XmlNode parentNode = xPaths.Select(t => _xmlDocument.SelectSingleNode(t.Expression, _xmlNamespaceManager))
+                                       .FirstOrDefault(t => t != null);
+            if (parentNode != null)
+            {
+                var childNodes = temp.DocumentElement.ChildNodes.Cast<XmlNode>().Reverse();
+                foreach (XmlNode item in childNodes)
+                {
+                    XmlNode newNode = parentNode.OwnerDocument.ImportNode(item, true);
+                    parentNode.PrependChild(newNode);
+                }
+            }
+        }
+
         public void AddOrReplaceSiblingNodeAfterFirstOf(string xml, params XPath[] xPaths)
         {
             // WARNING: Document shouldn't be modified afer signed

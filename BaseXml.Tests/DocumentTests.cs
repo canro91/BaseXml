@@ -306,6 +306,29 @@ namespace BaseXml.Tests
         }
 
         [Test]
+        public void PrependChildren_ExistingSiblingNode_AddChildrenAfterGivenNode()
+        {
+            var note = MakeNote(@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <subject>Subject</subject>
+  <body>Body</body>
+</note>");
+            var newNode = "<from>Bob</from><to>Alice</to>";
+
+            note.PrependChildren(newNode, new XPath("/note"));
+
+            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>Body</body>
+</note>";
+            XmlAssert.AreEqual(expected, note.Xml);
+        }
+
+        [Test]
         public void ChangeValueOfNode_ExistingNode_ChangesValueOfNode()
         {
             var note = MakeNote(@"
