@@ -42,7 +42,7 @@ BaseXML has methods to add or prepend child nodes, add sibling nodes before or a
 * ChangeValueOfAttribute
 * AddOrChangeValueOfAttribute
 
-### Evaluate an xpath expression
+#### Evaluate an XPath expression
 
 ```csharp
 string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
