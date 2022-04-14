@@ -93,7 +93,7 @@ var validator = new CheckDocument(new Dictionary<XPath, IEnumerable<IValidateNod
 ValidationResult results = validator.Validate(note);
 
 results.IsValid
-// false
+// true
 ```
 
 These are BaseXML node validators:
