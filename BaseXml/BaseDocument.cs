@@ -19,7 +19,7 @@ namespace BaseXml
         {
             var doc = new XmlDocument();
             doc.LoadXml(xml);
-            this._xmlDocument = doc;
+            _xmlDocument = doc;
 
             XPathNavigator navigator = _xmlDocument.CreateNavigator();
             XmlNamespaceManager ns = new XmlNamespaceManager(navigator.NameTable);
@@ -28,13 +28,17 @@ namespace BaseXml
                 ns.AddNamespace(item.Prefix, item.Uri);
             }
 
-            this._xmlNamespaceManager = ns;
-            this._navigator = navigator;
+            _xmlNamespaceManager = ns;
+            _navigator = navigator;
         }
 
-        public abstract IEnumerable<XsdReference> UblXsds { get; }
-        public abstract IEnumerable<XmlNamespace> XmlNamespaces { get; }
-        public abstract bool XmlIsSigned { get; }
+        public virtual IEnumerable<XsdReference> UblXsds { get; }
+            = Enumerable.Empty<XsdReference>();
+
+        public virtual IEnumerable<XmlNamespace> XmlNamespaces { get; }
+            = Enumerable.Empty<XmlNamespace>();
+
+        public virtual bool XmlIsSigned { get; } = false;
 
         public string Xml
         {

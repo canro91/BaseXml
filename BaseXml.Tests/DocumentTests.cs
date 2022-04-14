@@ -500,15 +500,6 @@ namespace BaseXml.Tests
             : base(xml)
         {
         }
-
-        public override IEnumerable<XsdReference> UblXsds
-            => new XsdReference[0];
-
-        public override IEnumerable<XmlNamespace> XmlNamespaces
-            => new XmlNamespace[0];
-
-        public override bool XmlIsSigned
-            => false;
     }
 
     public class NamespacedNode : BaseDocument
@@ -518,13 +509,7 @@ namespace BaseXml.Tests
         {
         }
 
-        public override IEnumerable<XsdReference> UblXsds
-            => new XsdReference[0];
-
         public override IEnumerable<XmlNamespace> XmlNamespaces
             => new XmlNamespace[] { new XmlNamespace("ns", "com:basexml:Structures") };
-
-        public override bool XmlIsSigned
-            => false;
     }
 }

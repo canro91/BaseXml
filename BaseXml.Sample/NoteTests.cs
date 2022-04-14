@@ -1,7 +1,6 @@
 ﻿using BaseXml.Evaluation;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace BaseXml.Sample
 {
@@ -70,15 +69,6 @@ namespace BaseXml.Sample
             : base(xml)
         {
         }
-
-        public override IEnumerable<XsdReference> UblXsds
-            => new XsdReference[0];
-
-        public override IEnumerable<XmlNamespace> XmlNamespaces
-            => new XmlNamespace[0];
-
-        public override bool XmlIsSigned
-            => false;
 
         public string Body
             => Evaluate(new XPath("/note/body"));

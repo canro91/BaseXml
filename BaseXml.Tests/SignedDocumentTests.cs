@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace BaseXml.Tests
 {
@@ -139,12 +138,6 @@ namespace BaseXml.Tests
             : base(xml)
         {
         }
-
-        public override IEnumerable<XsdReference> UblXsds
-            => new XsdReference[0];
-
-        public override IEnumerable<XmlNamespace> XmlNamespaces
-            => new XmlNamespace[0];
 
         public override bool XmlIsSigned
             => true;

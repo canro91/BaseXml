@@ -67,15 +67,6 @@ namespace BaseXml.Sample
         {
         }
 
-        public override IEnumerable<XsdReference> UblXsds
-            => new XsdReference[0];
-
-        public override IEnumerable<XmlNamespace> XmlNamespaces
-            => new XmlNamespace[0];
-
-        public override bool XmlIsSigned
-            => false;
-
         public string Contact
             => Evaluate(new XPath("/Invoice/Supplier/@Contact"));
 
