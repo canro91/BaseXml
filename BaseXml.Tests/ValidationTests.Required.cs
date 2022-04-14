@@ -92,9 +92,9 @@ namespace BaseXml.Tests
             return new Note(xml.Trim());
         }
 
-        private Dictionary<XPath, IList<IValidateNode>> MakeValidator(XPath xPath, IValidateNode validateNode)
+        private Dictionary<XPath, IEnumerable<IValidateNode>> MakeValidator(XPath xPath, IValidateNode validateNode)
         {
-            return new Dictionary<XPath, IList<IValidateNode>>
+            return new Dictionary<XPath, IEnumerable<IValidateNode>>
             {
                 { xPath, new List<IValidateNode> { validateNode } }
             };

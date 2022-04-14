@@ -6,11 +6,11 @@ namespace BaseXml.Validation
 {
     public class CheckDocument : AbstractValidator<BaseDocument>
     {
-        private readonly IDictionary<XPath, IList<IValidateNode>> Validations;
+        private readonly IDictionary<XPath, IEnumerable<IValidateNode>> Validations;
 
-        public CheckDocument(IDictionary<XPath, IList<IValidateNode>> validations)
+        public CheckDocument(IDictionary<XPath, IEnumerable<IValidateNode>> validations)
         {
-            this.Validations = validations;
+            Validations = validations;
         }
 
         public override ValidationResult Validate(ValidationContext<BaseDocument> context)
