@@ -10,15 +10,16 @@ namespace BaseXml.Tests
         [Test]
         public void Value_ANonEmptyNodeWithExpectedValue_IsValid()
         {
-            var note = MakeNote(@"
+            var expected = "Subject";
+            var note = MakeNote($@"
 <?xml version=""1.0"" encoding=""utf-8""?>
 <note>
   <from>Bob</from>
   <to>Alice</to>
-  <subject>Subject</subject>
+  <subject>{expected}</subject>
   <body>Body</body>
 </note>");
-            var validations = MakeValidator(new XPath("/note/subject"), new Value("Subject"));
+            var validations = MakeValidator(new XPath("/note/subject"), new Value(expected));
             var validator = new CheckDocument(validations);
 
             ValidationResult results = validator.Validate(note);

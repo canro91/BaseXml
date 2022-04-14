@@ -67,7 +67,7 @@ namespace BaseXml.Tests
 </note>");
             var newNode = "<body>Body</body>";
 
-            note.AddSiblingNodeAfterFirstOf(newNode, new XPath("/note/not-exist-node"));
+            note.AddSiblingNodeAfterFirstOf(newNode, new XPath("/note/non-existing-node"));
 
             var body = note.Evaluate(new XPath("/note/body"));
             Assert.IsNull(body);
@@ -100,7 +100,7 @@ namespace BaseXml.Tests
         }
 
         [Test]
-        public void AddSiblingNodeAfter_NodeToAddInAInnerNode_AddNewNodeAfterGivenNode()
+        public void AddSiblingNodeAfter_NodeToAddInAnInnerNode_AddNewNodeAfterGivenNode()
         {
             var note = MakeNote(@"
 <?xml version=""1.0"" encoding=""utf-8""?>
@@ -132,7 +132,7 @@ namespace BaseXml.Tests
         }
 
         [Test]
-        public void AddSiblingNodeBefore_NodeToAddInAInnerNode_AddNewNodeBeforeGivenNode()
+        public void AddSiblingNodeBefore_NodeToAddInAnInnerNode_AddNewNodeBeforeGivenNode()
         {
             var note = MakeNote(@"
 <?xml version=""1.0"" encoding=""utf-8""?>
@@ -358,7 +358,7 @@ namespace BaseXml.Tests
   <subject>Subject</subject>
   <body>Body</body>
 </note>");
-            var xPath = new XPath("/note/non-existing");
+            var xPath = new XPath("/note/non-existing-node");
 
             note.ChangeValueOfNode(xPath, "Another body");
 
@@ -400,7 +400,7 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <body>Body</body>
+  <body>ThisNodeDoesNotHaveALangAttr</body>
 </note>");
             var attribute = new XAttribute(new XPath("/note/body"), "lang");
 
@@ -411,7 +411,7 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <body>Body</body>
+  <body>ThisNodeDoesNotHaveALangAttr</body>
 </note>";
             XmlAssert.AreEqual(expected, note.Xml);
         }
@@ -444,20 +444,14 @@ namespace BaseXml.Tests
   <from>Bob</from>
   <to>Alice</to>
   <subject>Subject</subject>
-  <body>Body</body>
+  <body>ThisNodeDoesNotHaveALangAttr</body>
 </note>");
             var attribute = new XAttribute(new XPath("/note/body"), "lang");
 
             note.AddOrChangeValueOfAttribute(attribute, "en");
 
-            string expected = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<note>
-  <from>Bob</from>
-  <to>Alice</to>
-  <subject>Subject</subject>
-  <body lang=""en"">Body</body>
-</note>";
-            XmlAssert.AreEqual(expected, note.Xml);
+            var value = note.Evaluate(attribute);
+            Assert.AreEqual("en", value);
         }
 
         [Test]
