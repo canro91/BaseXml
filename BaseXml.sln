@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseXml", "BaseXml\BaseXml.csproj", "{003977B7-6E1D-48AF-A998-A54EFEBA800C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseXml.Tests", "BaseXml.Tests\BaseXml.Tests.csproj", "{F7CFABEB-972D-431E-97DA-5F2482A2D147}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseXml.Tests", "BaseXml.Tests\BaseXml.Tests.csproj", "{F7CFABEB-972D-431E-97DA-5F2482A2D147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseXml.Sample", "BaseXml.Sample\BaseXml.Sample.csproj", "{CB385706-0ACC-4110-99AF-2F9564031679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseXml.Sample", "BaseXml.Sample\BaseXml.Sample.csproj", "{CB385706-0ACC-4110-99AF-2F9564031679}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
