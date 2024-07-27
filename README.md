@@ -17,19 +17,19 @@ using BaseXml;
 
 class Note: BaseDocument
 {
-	public Note(string xml)
-		: base(xml)
-	{
-	}
-		
-	public string Body
-		=> Evaluate(new XPath("/note/body"));
-		
-	public void AddPS(string ps)
-	{
-		var psNode = $"<ps>{ps}</ps>";
-		AddSiblingNodeAfterFirstOf(psNode, new XPath("/note/body"));
-	}
+    public Note(string xml)
+        : base(xml)
+    {
+    }
+        
+    public string Body
+        => Evaluate(new XPath("/note/body"));
+        
+    public void AddPS(string ps)
+    {
+        var psNode = $"<ps>{ps}</ps>";
+        AddSiblingNodeAfterFirstOf(psNode, new XPath("/note/body"));
+    }
 }
 ```
 
@@ -81,17 +81,17 @@ using BaseXml.Validation;
 
 string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <note>
-	<from>Bob</from>
-	<to>Alice</to>
-	<subject>Subject</subject>
-	<body>A Body</body>
+    <from>Bob</from>
+    <to>Alice</to>
+    <subject>Subject</subject>
+    <body>A Body</body>
 </note>";
 var note = new Note(xml);
 
 var validator = new CheckDocument(new Dictionary<XPath, IEnumerable<IValidateNode>>
 {
-	{ new XPath("/note/subject"), new List<IValidateNode> { new Length(min: 1, max: 10) } },
-	{ new XPath("/note/body"), new List<IValidateNode> { new Required() } }
+    { new XPath("/note/subject"), new[] { new Length(min: 1, max: 10) } },
+    { new XPath("/note/body"), new[] { new Required() } }
 });
 
 ValidationResult results = validator.Validate(note);
