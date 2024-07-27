@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <Description>BaseXml allows you to evaluate xpath expressions, add or modify nodes and validate an xml document</Description>
-    <RepositoryUrl>https://github.com/canro91/BaseXml</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/canro91/BaseXml</PackageProjectUrl>
-    <PackageTags>xml xml-document xpath xsd</PackageTags>
-    <Authors>Cesar Aguirre</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net461" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseXml\BaseXml.csproj" />
+  </ItemGroup>
+
 </Project>

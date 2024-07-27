@@ -13,21 +13,23 @@ Also, BaseXML offers a set of validators to check the nodes of XML documents.
 To use BaseXML, create a class inheriting from `BaseDocument` to define mutable custom operations.
 
 ```csharp
+using BaseXml;
+
 class Note: BaseDocument
 {
-    public Note(string xml)
-        : base(xml)
-    {
-    }
-        
-    public string Body
-        => Evaluate(new XPath("/note/body"));
-        
-    public void AddPS(string ps)
-    {
-        var psNode = $"<ps>{ps}</ps>";
-        AddSiblingNodeAfterFirstOf(psNode, new XPath("/note/body"));
-    }
+	public Note(string xml)
+		: base(xml)
+	{
+	}
+		
+	public string Body
+		=> Evaluate(new XPath("/note/body"));
+		
+	public void AddPS(string ps)
+	{
+		var psNode = $"<ps>{ps}</ps>";
+		AddSiblingNodeAfterFirstOf(psNode, new XPath("/note/body"));
+	}
 }
 ```
 
@@ -52,7 +54,6 @@ string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
   <subject>Subject</subject>
   <body>A Body</body>
 </note>";
-
 var note = new Note(xml);
 
 var body = note.Body;
@@ -75,19 +76,22 @@ Please, look at the [Sample project](https://github.com/canro91/BaseXml/tree/mas
 BaseXml provides some per-node validations on top of a [FluentValidation](https://github.com/FluentValidation/FluentValidation) validator.
 
 ```csharp
+using BaseXml;
+using BaseXml.Validation;
+
 string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <note>
-    <from>Bob</from>
-    <to>Alice</to>
-    <subject>Subject</subject>
-    <body>A Body</body>
+	<from>Bob</from>
+	<to>Alice</to>
+	<subject>Subject</subject>
+	<body>A Body</body>
 </note>";
 var note = new Note(xml);
 
 var validator = new CheckDocument(new Dictionary<XPath, IEnumerable<IValidateNode>>
 {
-    { new XPath("/note/subject"), new List<IValidateNode> { new Length(min: 1, max: 10) } },
-    { new XPath("/note/body"), new List<IValidateNode> { new Required() } }
+	{ new XPath("/note/subject"), new List<IValidateNode> { new Length(min: 1, max: 10) } },
+	{ new XPath("/note/body"), new List<IValidateNode> { new Required() } }
 });
 
 ValidationResult results = validator.Validate(note);
