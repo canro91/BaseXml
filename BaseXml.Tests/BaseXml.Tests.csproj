@@ -12,6 +12,7 @@
     <PackageReference Include="XMLUnit.Core" Version="2.9.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BaseXml.Validation\BaseXml.Validation.csproj" />
     <ProjectReference Include="..\BaseXml\BaseXml.csproj" />
   </ItemGroup>
 </Project>

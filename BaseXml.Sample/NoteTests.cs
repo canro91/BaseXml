@@ -1,6 +1,8 @@
 ﻿using BaseXml.Evaluation;
+using BaseXml.Validation;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace BaseXml.Sample
 {
@@ -10,7 +12,7 @@ namespace BaseXml.Sample
         [Test]
         public void ModifyNote_AnIncompleteNoteXml_LoadsAndModifiesNote()
         {
-            string xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
+            var xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <note>
   <from>Bob</from>
   <to>Alice</to>
@@ -26,6 +28,29 @@ namespace BaseXml.Sample
 
             var ps = note.PS;
             Assert.AreEqual("I Love You", ps);
+        }
+
+        [Test]
+        public void ValidateDocument_SubjectBetweenBoundsAndBodyPresent_ReturnsValid()
+        {
+            var xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<note>
+  <from>Bob</from>
+  <to>Alice</to>
+  <subject>Subject</subject>
+  <body>A Body</body>
+</note>";
+            var note = new Note(xml);
+
+            var validator = new CheckDocument(new Dictionary<XPath, IEnumerable<IValidateNode>>
+            {
+                { new XPath("/note/subject"), new[] { new Length(min: 1, max: 10) } },
+                { new XPath("/note/body"), new[] { new Required() } }
+            });
+
+            var results = validator.Validate(note);
+
+            Assert.IsTrue(results.IsValid);
         }
 
         [Test]
